@@ -1,0 +1,7 @@
+{
+  "name": "nasa-client",
+  "description": "Official NASA JavaScript SDK/Client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {}
+}
