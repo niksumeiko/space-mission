@@ -15,7 +15,7 @@ export function createServerAdapter<T, U = never>(options: AdapterFactoryOptions
     if (process.env.NEXT_PUBLIC_PHASE === 'test') {
       return {
         getData: () => {
-          return settleFakeStub<T>(options.name, fakes);
+          return settleFakeStub<T>(options.name.toLowerCase(), fakes);
         },
       };
     }
