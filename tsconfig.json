@@ -19,13 +19,18 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@design-system": ["./src/app/design-system/index"],
+      "@design-system/*": ["./src/app/design-system/*"]
     }
   },
-  "types": [
-    "cypress",
-    "@testing-library/cypress"
+  "types": ["cypress", "@testing-library/cypress"],
+  "include": [
+    "./cypress/**/*",
+    "next-env.d.ts",
+    "process-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
   ],
-  "include": ["./cypress/**/*", "next-env.d.ts", "process-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

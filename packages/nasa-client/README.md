@@ -3,16 +3,18 @@
 ### Usage
 
 #### Public interface
+
 ```ts
 type Astronaut = {
-  name: string;
-  avatar: string;
+    name: string;
+    avatar: string;
 };
 
 function getAvailableAstronauts(max: string): Promise<Astronaut[]>;
 ```
 
 #### Correct answer retrieval
+
 ```ts
 import { getAvailableAstronauts } from 'nasa-client';
 

@@ -14,23 +14,23 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands';
 import { getFakes, resetFakes } from './fakes';
 
 beforeEach(() => {
-  const current = Cypress.currentTest.titlePath.join(' > ');
+    const current = Cypress.currentTest.titlePath.join(' > ');
 
-  cy.intercept(new RegExp(`${Cypress.config('baseUrl')}/(?!_).*`), (req) => {
-    const fakes = getFakes(current);
+    cy.intercept(new RegExp(`${Cypress.config('baseUrl')}/(?!_).*`), (req) => {
+        const fakes = getFakes(current);
 
-    for (const key in fakes) {
-      req.headers[`test-fake-${key}`] = JSON.stringify(fakes[key]);
-    }
-  });
+        for (const key in fakes) {
+            req.headers[`test-fake-${key}`] = JSON.stringify(fakes[key]);
+        }
+    });
 });
 
 afterEach(() => {
-  const current = Cypress.currentTest.titlePath.join(' > ');
+    const current = Cypress.currentTest.titlePath.join(' > ');
 
-  resetFakes(current);
+    resetFakes(current);
 });

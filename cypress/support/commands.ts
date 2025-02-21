@@ -40,37 +40,44 @@
 import { setFakes } from './fakes';
 
 type Adapter<T> = {
-  (): T;
-  _name: string;
-}
+    (): T;
+    _name: string;
+};
 
-type ExtractAdapterResponse<T> = T extends Promise<{ getData: (input?: any) => Promise<infer R>; }>
-  ? R
-  : T extends { getData: (input?: any) => Promise<infer R>; }
-    ? R
-    : never;
+type ExtractAdapterResponse<T> =
+    T extends Promise<{ getData: (input?: any) => Promise<infer R> }>
+        ? R
+        : T extends { getData: (input?: any) => Promise<infer R> }
+          ? R
+          : never;
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Cypress {
-    interface Chainable {
-      injectFakeAdapter<T>(adapter: Adapter<T>, stub: { body: ExtractAdapterResponse<T>; statusCode?: number }): void;
-      getByTestId(testId: string): Cypress.Chainable<JQuery<HTMLElement>>;
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+            injectFakeAdapter<T>(
+                adapter: Adapter<T>,
+                stub: { body: ExtractAdapterResponse<T>; statusCode?: number },
+            ): void;
+            getByTestId(testId: string): Cypress.Chainable<JQuery<HTMLElement>>;
+        }
     }
-  }
 }
 
-Cypress.Commands.add('injectFakeAdapter', <T>(adapter: Adapter<T>, stub: { body: ExtractAdapterResponse<T>; statusCode?: number }) => {
-  const current = Cypress.currentTest.titlePath.join(' > ')
+Cypress.Commands.add(
+    'injectFakeAdapter',
+    <T>(adapter: Adapter<T>, stub: { body: ExtractAdapterResponse<T>; statusCode?: number }) => {
+        const current = Cypress.currentTest.titlePath.join(' > ');
 
-  setFakes(current, {
-    [adapter._name.toLowerCase()]: {
-      statusCode: 200,
-      ...stub,
+        setFakes(current, {
+            [adapter._name.toLowerCase()]: {
+                statusCode: 200,
+                ...stub,
+            },
+        });
     },
-  })
-});
+);
 
 Cypress.Commands.add('getByTestId', (testId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
-  return cy.get(`[data-test="${testId}"]`);
+    return cy.get(`[data-test="${testId}"]`);
 });
